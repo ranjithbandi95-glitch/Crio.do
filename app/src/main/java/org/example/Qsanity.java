@@ -13,7 +13,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.example.LoginPage;
 
 public class Qsanity {
     private static WebDriver driver;
@@ -67,6 +66,7 @@ public class Qsanity {
             logstatus("EndTestCase", "Verify Login page", status ? "PASS" : "FAIL");
             return false;
         } else {
+            Take_Screenshot(driver, "Testcase_001", "LoginPage_Navigation");
             logstatus("EndTestCase", "Verify Login page", "PASS");
             return true;
         }
