@@ -14,8 +14,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
+
 public class Qsanity {
-    private static WebDriver driver;
+     static WebDriver driver;
+     static String lastGeneratedUserName;
 
     public static WebDriver Create_Driver(String browser) {
         switch (browser.toLowerCase()) {
@@ -56,22 +58,70 @@ public class Qsanity {
 
     public static boolean Testcase_001() {
         boolean status;
-        logstatus("StartTestCase", "Verify Login page", "Done");
-        LoginPage  loginpage = new LoginPage(driver);
-        loginpage.LoginPage_Navigation();
-        status = driver.getCurrentUrl().equals(loginpage.url);
+        logstatus("StartTestCase_001", "Verify Login page", "Done");
+        Homepage  homepage = new Homepage(driver);
+        homepage.LoginPage_Navigation();
+        status = driver.getCurrentUrl().equals(homepage.url);
         if (!status) {
-            Take_Screenshot(driver, "Testcase_001", "LoginPage_Navigation");
-            logstatus("Testcase_001", "Verify User able to navigate to login page", "Failed");
-            logstatus("EndTestCase", "Verify Login page", status ? "PASS" : "FAIL");
+            Take_Screenshot(driver, "Testcase_001", "HomePage_Navigation");
+            logstatus("Testcase_001", "Verify User able to navigate to Home page", "Failed");
+            logstatus("EndTestCase", "Verify Home page", status ? "PASS" : "FAIL");
             return false;
-        } else {
-            Take_Screenshot(driver, "Testcase_001", "LoginPage_Navigation");
-            logstatus("EndTestCase", "Verify Login page", "PASS");
-            return true;
         }
+        else{
+            logstatus("Testcase_001", "Verify User able to navigate to Home page", "Passed");
+        }
+        status=homepage.Qcark_Logo();
+        if(!status){
+            logstatus("Testcase_001","Verify Qkart logo is displayed on Home page","Failed");
+            logstatus("EndTestCase", "Verify Home page", status ? "PASS" : "FAIL");
+        }
+
+        logstatus("Testcase_001","Verify Qkart logo is displayed on Home page",status?"Passed":"Failed");
+        status=homepage.search_bar();
+        if(!status){
+            logstatus("Testcase_001","Verify search bar is displayed on  page","Failed");
+            logstatus("EndTestCase", "Verify Home page", status ? "PASS" : "FAIL");
+        } 
+        logstatus("Testcase_001","Verify search bar is displayed on Home page","Failed");    
+        status=homepage.Verify_LoginButton();
+        if(!status){
+            logstatus("Testcase_001","Verify Login button is displayed on Home page and able to click Navigate to LoginPage","Failed");
+            logstatus("EndTestCase", "Verify Home page", status ? "PASS" : "FAIL");
+        }
+        else{
+            logstatus("Testcase_001","Verify Login button is displayed on Home page and able to click Navigate to LoginPage","Passed");
+        }
+        LoginPage loginpage = new LoginPage(driver);
+        loginpage.verify_back_to_explore_button();
+        status=homepage.Verify_RegisterButton();
+        if(!status){
+            logstatus("Testcase_001","Verify Register button is displayed on Registration page and able to click Navigate to RegisterPage","Failed");
+            logstatus("EndTestCase", "Verify Home page", status ? "PASS" : "FAIL");
+        }
+        else{
+            logstatus("Testcase_001","Verify Register button is displayed on Registration  page and able to click Navigate to RegisterPage","Passed");
+        }   
+        logstatus("EndTestCase", "Verify Home page", status ? "PASS" : "FAIL");
+        return status;
     }
 
+    public static boolean Testcase_002() {
+        boolean status ; 
+        RegistrationPage registration = new RegistrationPage(driver);
+        registration.RegistrationPage_Navigation();
+        lastGeneratedUserName=registration.lastgeneratedusername;
+        status=registration.user_registration(lastGeneratedUserName, "Password@123", true);
+        if(!status){
+            logstatus("TestCase_002","User Not able to register","Failed");
+            logstatus("EndTestCase_002","Verify User Registration",status? "PASS":"FAIL");
+        }
+        else{
+            logstatus("TestCase_002","User able to register","PASS");
+            logstatus("EndTestCase_002","Verify User Registration",status? "PASS":"FAIL");
+        }
+        return status;
+    }
     public static void main(String[] args) {
         int TotalTestCases = 0;
         int PassedTestCases = 0;
@@ -80,10 +130,17 @@ public class Qsanity {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         try {
+            // TotalTestCases += 1;
+            // status = Testcase_001();
+            // if (status) {
+            //     PassedTestCases += 1;
+            // }
+            // System.out.println("");
+
             TotalTestCases += 1;
-            status = Testcase_001();
-            if (status) {
-                PassedTestCases += 1;
+            status=Testcase_002();
+            if(status){
+                PassedTestCases+= 1;
             }
             System.out.println("");
         } catch (Exception e) {
