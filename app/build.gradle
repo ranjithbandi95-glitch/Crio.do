@@ -17,12 +17,20 @@ repositories {
 }
 
 dependencies {
-    // This dependency is used by the application.
-    implementation libs.guava
-    // Source: https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
-implementation("org.seleniumhq.selenium:selenium-java:4.45.0")
-// Source: https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
-implementation("io.github.bonigarcia:webdrivermanager:6.3.4")
+   // Selenium
+    implementation("org.seleniumhq.selenium:selenium-java:4.45.0")
+
+    // WebDriver Manager
+    implementation("io.github.bonigarcia:webdrivermanager:6.3.4")
+
+    // JUnit 5
+    testImplementation("org.junit.jupiter:junit-jupiter:5.13.4")
+
+    // Apache Commons IO - screenshots/file handling
+    implementation("commons-io:commons-io:2.20.0")
+
+    // Guava - only if your project actually uses it
+    implementation("com.google.guava:guava:33.5.0-jre")
 }
 
 testing {
