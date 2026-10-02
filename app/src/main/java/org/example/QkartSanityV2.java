@@ -177,10 +177,100 @@ public class QkartSanityV2 {
 
         // Search for the "yonex" product
         status = homePage.searchForProduct("YONEX");
-        logStatus("End TestCase", "Test Case 3: Verify functionality of search box",
-            status ? "PASS" : "FAIL");
-        return status;
+        if(!status){
+            logStatus("Testcase 3","Testcase Failure.Unable to search for given product","FAIL");
+            return  false;
+        }
+        //fuch the search result
+        List<WebElement>searchresult=homePage.getSearchResults();
+        // Verify the search results are available
+        if(searchresult.size()==0){
+            logStatus("TestCase 3","Test Case Failure.There were no results for the given search string","FAIL");
+            return false;
+        }
+
+        for(WebElement WebElement :searchresult){
+              // Create a SearchResult object from the parent element
+            SearchResult searchResult = new SearchResult(WebElement);
+             // Verify that all results contain the searched text
+            String elementText= searchResult.getTitleofResult();
+            if(!elementText.toUpperCase().contains("YONEX")){
+                logStatus("TestCase 3", "Test Case Failure. Test Results contains un-expected values:"+elementText, "FAIL");
+                return false;
+            }
+            logStatus("Step Success", "Successfully validated the search results ", "PASS");
+
+        }
+            status=homePage.searchForProduct("Gesundheit");
+              if (status) {
+            logStatus("TestCase 3", "Test Case Failure. Invalid keyword returned results", "FAIL");
+            return false;
+        }
+        searchresult = homePage.getSearchResults();
+        if(searchresult.size()==0){
+            if(homePage.isNoResultFound()){
+                  logStatus("Step Success",
+                        "Successfully validated that no products found message is displayed",
+                        "PASS");
+            }
+            logStatus("TestCase 3",
+                    "Test Case PASS. Verified that no search results were found for the given text",
+                    "PASS");
+        }
+        else{
+            logStatus("TestCase 3",
+                    "Test Case Fail. Expected: no results , actual: Results were available",
+                    "FAIL");
+            return false;
+        }
+
+        return true;
     }
+
+    public static boolean Testcase04(WebDriver driver) throws InterruptedException{
+        boolean Status;
+        logStatus("Start Testcase ","Size Chart verification","Done");
+        Home home= new Home(driver);
+        // Vist home page
+        home.navigateToHome();
+
+        //search for the product
+        Status=home.searchForProduct("Running Shoes");
+        List<WebElement> searchResults = home.getSearchResults();
+        List<String> expectedTableHeaders = Arrays.asList("Size", "UK/INDIA", "EU", "HEEL TO TOE");
+        List<List<String>> expectedTableBody = Arrays.asList(Arrays.asList("6", "6", "40", "9.8"),
+                Arrays.asList("7", "7", "41", "10.2"), Arrays.asList("8", "8", "42", "10.6"),
+                Arrays.asList("9", "9", "43", "11"), Arrays.asList("10", "10", "44", "11.5"),
+                Arrays.asList("11", "11", "45", "12.2"), Arrays.asList("12", "12", "46", "12.6"));
+                for(WebElement webElement : searchResults){
+                    SearchResult result = new SearchResult(webElement);
+
+                }
+//verify that the size chart link exists in the search result card
+//contect should be match to the each search result card
+for(WebElement webElement : searchResults){
+    SearchResult result = new SearchResult(webElement);
+if(result.VerifythattheSizeChartLinkExists()){
+    logstatus("Step Success","Successfully Validate  pransent of Size Chart link ","PASS");
+    Status=result.verifyExistenceofSizeDropdown();
+    if(Status){
+        logstatus("Step Success","Successfully Validate  pransent of Size Dropdown in the search result card","PASS");
+    }
+    else{
+        logstatus("Step Failure","Size Dropdown not found in the search result card","FAIL");
+        return false;
+    }
+    if(result.openSizechart()){
+        logstatus("Step Success","Successfully Validate  Size Chart link is clickable and size chart is opened","PASS");
+    }
+    else{
+        logstatus("Step Failure","Size Chart link is not clickable or size chart is not opened","FAIL");
+        return false;
+    }
+}
+return Status;
+}
+    } 
 
     public static void main(String[] args) throws InterruptedException, MalformedURLException {
         int totalTests = 0;
@@ -192,32 +282,41 @@ public class QkartSanityV2 {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
 
         try {
-            // Execute Test Case 1
+            // // // Execute Test Case 1
+            // totalTests += 1;
+            // status = TestCase01(driver);
+            // if (status) {
+            // passedTests += 1;
+            // }
+
+            // System.out.println("");
+
+            // // // Execute Test Case 2
+            // totalTests += 1;
+            // status = TestCase02(driver);
+            // if (status) {
+            // passedTests += 1;
+            // }
+
+            // System.out.println("");
+
+            // // Execute Test Case 3
+            // totalTests += 1;
+            // status = TestCase03(driver);
+            // if (status) {
+            //     passedTests += 1;
+            // }
+
+            //       System.out.println("");
+
+                    // Execute Test Case 4
             totalTests += 1;
-            status = TestCase01(driver);
-            if (status) {
-            passedTests += 1;
-            }
-
-            System.out.println("");
-
-            // Execute Test Case 2
-            totalTests += 1;
-            status = TestCase02(driver);
-            if (status) {
-            passedTests += 1;
-            }
-
-            System.out.println("");
-
-            // Execute Test Case 3
-            totalTests += 1;
-            status = TestCase03(driver);
+            status = TestCase04(driver);
             if (status) {
                 passedTests += 1;
             }
 
-                  System.out.println("");
+            System.out.println("");
 
 
         } catch (Exception e) {

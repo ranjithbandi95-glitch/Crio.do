@@ -8,7 +8,7 @@ import static org.testng.Assert.*;
 
 public class QsanityTest {
     @Test public void appHasAGreeting() {
-        Qsanity classUnderTest = new Qsanity();
+        QkartSanityV2 classUnderTest = new QkartSanityV2();
         
     }
 }
