@@ -251,20 +251,20 @@ public class QkartSanityV2 {
 for(WebElement webElement : searchResults){
     SearchResult result = new SearchResult(webElement);
 if(result.VerifythattheSizeChartLinkExists()){
-    logstatus("Step Success","Successfully Validate  pransent of Size Chart link ","PASS");
+    logStatus("Step Success","Successfully Validate  pransent of Size Chart link ","PASS");
     Status=result.verifyExistenceofSizeDropdown();
     if(Status){
-        logstatus("Step Success","Successfully Validate  pransent of Size Dropdown in the search result card","PASS");
+        logStatus("Step Success","Successfully Validate  pransent of Size Dropdown in the search result card","PASS");
     }
     else{
-        logstatus("Step Failure","Size Dropdown not found in the search result card","FAIL");
+        logStatus("Step Failure","Size Dropdown not found in the search result card","FAIL");
         return false;
     }
     if(result.openSizechart()){
-        logstatus("Step Success","Successfully Validate  Size Chart link is clickable and size chart is opened","PASS");
+        logStatus("Step Success","Successfully Validate  Size Chart link is clickable and size chart is opened","PASS");
     }
     else{
-        logstatus("Step Failure","Size Chart link is not clickable or size chart is not opened","FAIL");
+        logStatus("Step Failure","Size Chart link is not clickable or size chart is not opened","FAIL");
         return false;
     }
 }
@@ -318,6 +318,7 @@ return Status;
 
             System.out.println("");
 
+                
 
         } catch (Exception e) {
             throw e;
